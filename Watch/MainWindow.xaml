@@ -1,0 +1,157 @@
+﻿<Window x:Class="Watch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Diver Watch"
+        Width="900" Height="900"
+        Background="#0B0D0F"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        WindowStartupLocation="CenterScreen"
+        Loaded="OnLoaded">
+    <Window.Resources>
+        <RadialGradientBrush x:Key="CaseBrush" Center="0.35,0.3" GradientOrigin="0.3,0.2" RadiusX="0.8" RadiusY="0.8">
+            <GradientStop Color="#5C5C5C" Offset="0" />
+            <GradientStop Color="#2A2A2A" Offset="0.35" />
+            <GradientStop Color="#101010" Offset="0.7" />
+            <GradientStop Color="#070707" Offset="1" />
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="BezelBrush" Center="0.4,0.35" GradientOrigin="0.35,0.3" RadiusX="0.85" RadiusY="0.85">
+            <GradientStop Color="#12313A" Offset="0" />
+            <GradientStop Color="#0B2026" Offset="0.4" />
+            <GradientStop Color="#08171B" Offset="0.7" />
+            <GradientStop Color="#040B0D" Offset="1" />
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="DialBrush" Center="0.4,0.4" GradientOrigin="0.35,0.35" RadiusX="0.9" RadiusY="0.9">
+            <GradientStop Color="#151718" Offset="0" />
+            <GradientStop Color="#0F1011" Offset="0.5" />
+            <GradientStop Color="#0A0B0C" Offset="1" />
+        </RadialGradientBrush>
+        <LinearGradientBrush x:Key="LumeBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#F1FFD6" Offset="0" />
+            <GradientStop Color="#D3F4B6" Offset="0.4" />
+            <GradientStop Color="#9CD89A" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="HandSteelBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#D8D8D8" Offset="0" />
+            <GradientStop Color="#9B9B9B" Offset="0.4" />
+            <GradientStop Color="#6F6F6F" Offset="1" />
+        </LinearGradientBrush>
+        <DropShadowEffect x:Key="SoftShadow" BlurRadius="18" ShadowDepth="6" Opacity="0.55" Color="#000000" />
+        <DropShadowEffect x:Key="LumeGlow" BlurRadius="18" ShadowDepth="0" Opacity="0.55" Color="#A7F5A7" />
+    </Window.Resources>
+
+    <Grid SnapsToDevicePixels="True">
+        <Grid.Background>
+            <RadialGradientBrush Center="0.5,0.45" GradientOrigin="0.5,0.4" RadiusX="0.9" RadiusY="0.9">
+                <GradientStop Color="#101317" Offset="0" />
+                <GradientStop Color="#0B0D10" Offset="0.6" />
+                <GradientStop Color="#060708" Offset="1" />
+            </RadialGradientBrush>
+        </Grid.Background>
+
+        <Viewbox Stretch="Uniform" StretchDirection="Both" RenderOptions.BitmapScalingMode="HighQuality">
+            <Canvas Width="600" Height="600">
+                <!-- Outer shadow -->
+                <Ellipse Width="560" Height="560" Canvas.Left="20" Canvas.Top="20" Fill="#050505" Opacity="0.95" Effect="{StaticResource SoftShadow}" />
+
+                <!-- Case -->
+                <Ellipse Width="520" Height="520" Canvas.Left="40" Canvas.Top="40" Fill="{StaticResource CaseBrush}" Stroke="#4B4B4B" StrokeThickness="2" />
+
+                <!-- Bezel -->
+                <Ellipse Width="480" Height="480" Canvas.Left="60" Canvas.Top="60" Fill="{StaticResource BezelBrush}" Stroke="#1E2B30" StrokeThickness="5" />
+                <Ellipse Width="448" Height="448" Canvas.Left="76" Canvas.Top="76" Fill="#0B0F10" Stroke="#0E1416" StrokeThickness="1.5" />
+
+                <!-- Bezel ticks -->
+                <Canvas x:Name="BezelTicks" Width="600" Height="600" />
+
+                <!-- Bezel lume pip -->
+                <Ellipse Width="18" Height="18" Canvas.Left="291" Canvas.Top="84" Fill="{StaticResource LumeBrush}" Stroke="#CDEBB8" StrokeThickness="1" Effect="{StaticResource LumeGlow}" />
+                <Ellipse Width="10" Height="10" Canvas.Left="295" Canvas.Top="88" Fill="#0B0F10" Opacity="0.6" />
+
+                <!-- Dial -->
+                <Ellipse Width="420" Height="420" Canvas.Left="90" Canvas.Top="90" Fill="{StaticResource DialBrush}" Stroke="#0E0E0E" StrokeThickness="2" />
+                <Ellipse Width="390" Height="390" Canvas.Left="105" Canvas.Top="105" Fill="Transparent" Stroke="#1B1B1B" StrokeThickness="6" />
+
+                <!-- Dial ticks -->
+                <Canvas x:Name="DialTicks" Width="600" Height="600" />
+
+                <!-- Hour markers -->
+                <Rectangle Width="18" Height="44" Canvas.Left="291" Canvas.Top="122" RadiusX="3" RadiusY="3" Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="1" Effect="{StaticResource LumeGlow}" />
+                <Rectangle Width="18" Height="44" Canvas.Left="291" Canvas.Top="434" RadiusX="3" RadiusY="3" Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="1" Effect="{StaticResource LumeGlow}" />
+                <Rectangle Width="44" Height="18" Canvas.Left="434" Canvas.Top="291" RadiusX="3" RadiusY="3" Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="1" Effect="{StaticResource LumeGlow}" />
+                <Rectangle Width="44" Height="18" Canvas.Left="122" Canvas.Top="291" RadiusX="3" RadiusY="3" Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="1" Effect="{StaticResource LumeGlow}" />
+
+                <!-- Text -->
+                <TextBlock Canvas.Left="200" Canvas.Top="190" Width="200" TextAlignment="Center"
+                           Foreground="#E5E5E5" FontFamily="Palatino Linotype" FontSize="26" FontWeight="Bold" Text="ABYSSAL" />
+                <TextBlock Canvas.Left="200" Canvas.Top="225" Width="200" TextAlignment="Center"
+                           Foreground="#B0B0B0" FontFamily="Palatino Linotype" FontSize="14" FontWeight="SemiBold" Text="AUTOMATIC" />
+                <TextBlock Canvas.Left="200" Canvas.Top="250" Width="200" TextAlignment="Center"
+                           Foreground="#8AA9B5" FontFamily="Palatino Linotype" FontSize="12" Text="300m | 1000ft" />
+
+                <!-- Date window -->
+                <Border Width="54" Height="32" Canvas.Left="392" Canvas.Top="258" CornerRadius="4"
+                        Background="#0F1113" BorderBrush="#2C2F33" BorderThickness="2" Effect="{StaticResource SoftShadow}">
+                    <Grid>
+                        <Border Background="#0A0B0C" Margin="3" CornerRadius="2" />
+                        <TextBlock x:Name="DateText" Foreground="#E6E6E6" FontFamily="Palatino Linotype" FontSize="16"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                    </Grid>
+                </Border>
+
+                <TextBlock Canvas.Left="240" Canvas.Top="420" Width="120" TextAlignment="Center"
+                           Foreground="#BDBDBD" FontFamily="Palatino Linotype" FontSize="11" Text="SWISS MADE" />
+
+                <!-- Hands -->
+                <Canvas RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="HourHandRotate" CenterX="300" CenterY="300" />
+                    </Canvas.RenderTransform>
+                    <Path Fill="{StaticResource HandSteelBrush}" Stroke="#1C1C1C" StrokeThickness="1" Effect="{StaticResource SoftShadow}"
+                          Data="M 300 300 L 324 290 L 308 190 L 300 160 L 292 190 L 276 290 Z" />
+                    <Path Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="0.6"
+                          Data="M 300 292 L 310 290 L 300 190 L 290 290 Z" Effect="{StaticResource LumeGlow}" />
+                </Canvas>
+
+                <Canvas RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="MinuteHandRotate" CenterX="300" CenterY="300" />
+                    </Canvas.RenderTransform>
+                    <Path Fill="{StaticResource HandSteelBrush}" Stroke="#1C1C1C" StrokeThickness="1" Effect="{StaticResource SoftShadow}"
+                          Data="M 300 300 L 318 292 L 306 140 L 300 110 L 294 140 L 282 292 Z" />
+                    <Path Fill="{StaticResource LumeBrush}" Stroke="#C7E8B3" StrokeThickness="0.6"
+                          Data="M 300 295 L 308 292 L 300 145 L 292 292 Z" Effect="{StaticResource LumeGlow}" />
+                </Canvas>
+
+                <Canvas RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="SecondHandRotate" CenterX="300" CenterY="300" />
+                    </Canvas.RenderTransform>
+                    <Line X1="300" Y1="120" X2="300" Y2="332" Stroke="#D74C3C" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                    <Ellipse Width="16" Height="16" Canvas.Left="292" Canvas.Top="280" Fill="#D74C3C" />
+                    <Ellipse Width="8" Height="8" Canvas.Left="296" Canvas.Top="240" Fill="#D74C3C" />
+                </Canvas>
+
+                <!-- Center cap -->
+                <Ellipse Width="22" Height="22" Canvas.Left="289" Canvas.Top="289" Fill="#202426" Stroke="#0D0D0D" StrokeThickness="2" />
+                <Ellipse Width="10" Height="10" Canvas.Left="295" Canvas.Top="295" Fill="#0B0B0B" />
+
+                <!-- Glass highlight -->
+                <Ellipse Width="420" Height="420" Canvas.Left="90" Canvas.Top="90" Opacity="0.28">
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FFFFFF" Offset="0" />
+                            <GradientStop Color="#FFFFFF" Offset="0.18" />
+                            <GradientStop Color="#00FFFFFF" Offset="0.42" />
+                            <GradientStop Color="#00FFFFFF" Offset="1" />
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>
